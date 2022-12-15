@@ -3,7 +3,7 @@ import {useState} from "react";
 import logo from './logo.png';
 import {auth} from "./firebase"
 import {signInWithEmailAndPassword, onAuthStateChanged} from 'firebase/auth'
-import { stringify } from "@firebase/util";
+import {useNavigate} from "react-router-dom"
 
 export const Login = (props) => {
 
@@ -14,12 +14,14 @@ export const Login = (props) => {
     onAuthStateChanged(auth, (currentUser) => {
         setUser(currentUser);
     })
+    const navigate = useNavigate();
 
     const loginFunction = async ()=>{
         try{
         const user = await signInWithEmailAndPassword(auth, loginEmail, loginPass);
-        alert(stringify(user));
+        navigate('/dash');
         console.log(user);
+
         }catch(error){
             alert('lmao '+error.message);
         }
